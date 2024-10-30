@@ -171,8 +171,92 @@ sequenceDiagram
 ### Implementation Notes
 - Server validates content type before processing
 - Requests with mismatched content types are rejected
-- Helps ensure data integrity and compatibility
+- Helps ensure data integrity and compatibility]
 
+## 3. Data Type Independence
+
+```mermaid
+graph TD
+    subgraph "HTTP Data Types"
+        A[HTTP Request/Response]
+        B[JSON]
+        C[XML]
+        D[HTML]
+        E[Plain Text]
+        F[Binary Data]
+        G[Images]
+        H[Video]
+        I[Audio]
+        A --> B & C & D & E & F & G & H & I
+    end
+```
+
+### Platform Independence
+- HTTP supports multiple data formats
+- Not restricted to any single data type
+- Flexible communication between different platforms
+
+### Supported Data Types
+1. **Text-based Formats**
+   - JSON (application/json)
+   - XML (application/xml)
+   - HTML (text/html)
+   - Plain text (text/plain)
+
+2. **Binary Formats**
+   - Images (image/jpeg, image/png, etc.)
+   - PDF (application/pdf)
+   - Audio files
+   - Video files
+
+3. **Custom Formats**
+   - Application-specific formats
+   - Custom MIME types
+
+### Implementation
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    
+    Client->>Server: Request (Accept: application/json)
+    Server->>Client: Response (JSON data)
+    
+    Client->>Server: Request (Accept: text/xml)
+    Server->>Client: Response (XML data)
+    
+    Client->>Server: Request (Accept: text/html)
+    Server->>Client: Response (HTML content)
+```
+
+### Headers for Content Negotiation
+```http
+# Request headers
+Accept: application/json, text/xml, text/html
+
+# Response headers
+Content-Type: application/json
+```
+
+## Best Practices
+
+1. **Content Type Handling**
+   - Support multiple data formats when possible
+   - Clearly specify accepted formats in documentation
+   - Implement proper content negotiation
+   - Validate incoming data regardless of format
+
+2. **Error Handling**
+   - Return appropriate status codes
+   - Provide error messages in requested format
+   - Handle unsupported format requests gracefully
+
+3. **Security Considerations**
+   - Validate content types
+   - Sanitize input for all supported formats
+   - Implement proper content security policies
+
+---
 ## Best Practices
 
 1. **State Management**
