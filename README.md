@@ -283,3 +283,151 @@ Content-Type: application/json
 
 ---
 *Note: Understanding these characteristics is crucial for building robust and secure web applications and APIs.*
+
+
+
+# HTTP Request-Response Cycle
+
+## Request Structure
+
+```mermaid
+graph TD
+    A[HTTP Request] --> B[URI/URL]
+    A --> C[HTTP Verb/Method]
+    A --> D[Parameters]
+    A --> E[Headers]
+```
+
+### 1. URI (Uniform Resource Identifier)
+- Address of the resource on server
+- Tells server which resource client wants to access
+- Example: `https://api.company.com/employees/123`
+
+### 2. HTTP Verbs/Methods
+- Indicates type of action requested
+- Common verbs:
+  - GET: Retrieve data
+  - POST: Create new resource
+  - PUT: Update existing resource
+  - DELETE: Remove resource
+
+### 3. Parameters
+Can be sent in different ways:
+- Query parameters: `?id=123&name=john`
+- Request body
+- Path parameters: `/employees/123`
+
+### 4. Headers
+- Metadata about the request
+- Examples:
+  ```http
+  Authorization: Bearer token123
+  Content-Type: application/json
+  Accept: application/json
+  ```
+
+## Server Processing
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    Client->>Server: HTTP Request
+    Note over Server: 1. Parse URI
+    Note over Server: 2. Check HTTP Method
+    Note over Server: 3. Process Parameters
+    Note over Server: 4. Validate Headers
+    Note over Server: 5. Execute Request
+    Server->>Client: HTTP Response
+```
+
+## Response Structure
+
+```mermaid
+graph TD
+    A[HTTP Response] --> B[Status Code]
+    A --> C[Headers]
+    A --> D[Response Payload]
+```
+
+### 1. Status Codes
+Indicates request outcome:
+- 2xx Success
+  - 200: OK
+  - 201: Created
+  - 204: No Content
+- 3xx Redirection
+  - 301: Moved Permanently
+  - 302: Found
+- 4xx Client Errors
+  - 400: Bad Request
+  - 401: Unauthorized
+  - 404: Not Found
+- 5xx Server Errors
+  - 500: Internal Server Error
+  - 503: Service Unavailable
+
+### 2. Response Headers
+- Metadata about the response
+- Examples:
+  ```http
+  Content-Type: application/json
+  Cache-Control: no-cache
+  Content-Length: 234
+  ```
+
+### 3. Response Payload (Optional)
+- Actual data being returned
+- Must match agreed format
+- Example JSON response:
+  ```json
+  {
+    "employeeId": "123",
+    "name": "John Doe",
+    "department": "IT"
+  }
+  ```
+
+## Complete Flow Example
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+    
+    Note over Client: Prepares Request
+    Client->>Server: GET /api/employees/123
+    Note right of Client: Headers:<br/>Accept: application/json<br/>Authorization: Bearer token123
+    
+    Note over Server: Processes Request
+    
+    Server->>Client: 200 OK
+    Note left of Server: Headers:<br/>Content-Type: application/json
+    Note left of Server: Payload:<br/>{<br/> "employeeId": "123",<br/> "name": "John Doe"<br/>}
+```
+
+## Key Points
+1. Every request must have:
+   - URI
+   - HTTP method
+   - Headers
+
+2. Response always includes:
+   - Status code
+   - Headers
+   - Optional payload
+
+3. Format Agreement:
+   - Client specifies accepted format
+   - Server responds in agreed format
+   - Both must adhere to format specification
+
+## Best Practices
+1. Use appropriate HTTP methods
+2. Include relevant headers
+3. Handle status codes properly
+4. Validate request/response format
+5. Implement proper error handling
+
+---
+*Note: Understanding this request-response cycle is fundamental for building and debugging web applications and APIs.*
